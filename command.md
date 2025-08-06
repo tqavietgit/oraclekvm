@@ -22,7 +22,6 @@ $ nmcli con up bond0
 $ dnf install -y chrony
 $ systemctl enable --now chronyd
 ```
-### configuring 
 
 ```
 $ systemctl enable --now firewalld
@@ -47,4 +46,26 @@ $ uname -r
 ```
 $ dnf groupinstall -y "Virtualization Host"
 $ systemctl enable --now libvirtd
+```
+
+### configuring iSCSI
+
+```
+$ sudo dnf install -y iscsi-initiator-utils
+$ WWN=$(ssh ol-sys0 "sudo cat /etc/target/saveconfig.json | jq -r '.targets[0].wwn'")
+$ sudo sed -i "/InitiatorName=/ s/=.*/=$WWN/" /etc/iscsi/initiatorname.iscsi
+$ sudo systemctl enable --now iscsid.service
+$ sudo iscsiadm -m discovery -t st -p $(ssh ol-sys0 hostname -i)
+$ 
+```
+
+###
+
+```
+$ dnf install -y ovirt-hosted-engine-setup ovirt-engine-appliance
+$ dnf install -y cockpit-ovirt-dashboard
+$ firewall-cmd --permanent --add-port=9090/tcp
+$ firewall-cmd --reload
+$ systemctl enable --now cockpit.socket
+$ hosted-engine --deploy --4
 ```
