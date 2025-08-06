@@ -64,6 +64,9 @@ $
 ```
 $ dnf install -y ovirt-hosted-engine-setup ovirt-engine-appliance
 $ dnf install -y cockpit-ovirt-dashboard
+
+
+https://parsec.gg/g/30bUOSCEOOpLLC3gBgQMuRS3WbK/9b0c966d/
 $ firewall-cmd --permanent --add-port=9090/tcp
 $ firewall-cmd --reload
 $ systemctl enable --now cockpit.socket
